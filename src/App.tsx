@@ -1,8 +1,8 @@
-import Navbar from './components/Navbar'
-import Hero from './sections/Hero'
-import About from './sections/About'
-import Projects from './sections/Projects'
-import Contact from './sections/Contact'
+import Navbar from './components/navbar'
+import Hero from './sections/hero'
+import About from './sections/about'
+import Projects from './sections/projects'
+import Contact from './sections/contact'
 import { TechStack } from './sections/tech-stack'
 
 function App() {
