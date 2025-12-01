@@ -100,7 +100,7 @@ export function ThreeDHoverImage({
         className={cn(
           'relative inline-block select-none',
           'rounded-xl',
-          'will-change-transform overflow-visible',
+          'will-change-transform overflow-visible cursor-pointer',
           className,
         )}
         style={{ perspective: 1200 }}
