@@ -5,7 +5,9 @@
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/sections/*": ["./src/sections/*"],
-      "@/assets/*": ["./src/assets/*"]
+        "@/assets/*": ["./src/assets/*"],
+        "@/hooks/*": ["./src/hooks/*"],
+        "@/lib/*": ["./src/lib/*"]
     }
   },
   "files": [],

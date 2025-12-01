@@ -67,6 +67,11 @@ function ThemeToggler({
     resolved: resolvedTheme,
   });
 
+  // Keep internal state in sync with external theme changes
+  React.useEffect(() => {
+    setCurrent({ effective: theme, resolved: resolvedTheme });
+  }, [theme, resolvedTheme]);
+
   React.useEffect(() => {
     if (
       preview &&

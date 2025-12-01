@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/hooks/use-theme';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { VariantProps } from 'class-variance-authority';

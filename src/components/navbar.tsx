@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import ThemeTogglerButton from '@/components/animate-ui/components/buttons/theme-toggler'
-
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"
 // function ThemeToggle() {
 //   const [isDark, setIsDark] = useState<boolean>(() => {
 //     if (typeof window === 'undefined') return false
@@ -56,6 +56,7 @@ export default function Navbar() {
           <a className="text-copy/80 hover:text-copy" href="#contact">Contact</a>
           {/* <ThemeToggle /> */}
           <ThemeTogglerButton />
+          <AnimatedThemeToggler />
         </nav>
       </div>
     </header>
