@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { motion } from 'motion/react';
 import MeImage from '@/assets/images/Me.webp';
+// import { useTheme } from '@/hooks/use-theme';
+import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 
 type ThreeDHoverImageProps = {
   src?: string;
@@ -39,8 +41,12 @@ export function ThreeDHoverImage({
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const imgRef = React.useRef<HTMLImageElement | null>(null);
   const [dynamicSize, setDynamicSize] = React.useState(size);
+  // const { resolvedTheme } = useTheme();
 
-  // Detect dark mode via the 'dark' class on <html>
+  // Sync grayscale with current resolved theme
+  // React.useEffect(() => {
+  //   setIsDark(resolvedTheme === 'dark');
+  // }, [resolvedTheme]);
   React.useEffect(() => {
     const root = document.documentElement;
     const update = () => setIsDark(root.classList.contains('dark'));
@@ -85,55 +91,57 @@ export function ThreeDHoverImage({
   };
 
   return (
-    <div
-      ref={containerRef}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={reset}
-      onPointerCancel={reset}
-      className={cn(
-        'relative inline-block select-none',
-        'rounded-xl',
-        'will-change-transform overflow-visible',
-        className,
-      )}
-      style={{ perspective: 1200 }}
-    >
-      <motion.img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        draggable={false}
-        animate={{ rotateX: tilt.x, rotateY: tilt.y, scale: tilt.scale }}
-        transition={{ type: 'spring', stiffness: 180, damping: 18 }}
-        style={{
-          transformStyle: 'preserve-3d',
-          filter: grayscaleInDark && isDark ? 'grayscale(1)' : 'none',
-          width: responsive ? 'clamp(240px, 55vw, 500px)' : size,
-        }}
+    <AnimatedThemeToggler asChild duration={700}>
+      <div
+        ref={containerRef}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={reset}
+        onPointerCancel={reset}
         className={cn(
-        //   'rounded-xl shadow-md',
-          'h-auto',
-          'bg-transparent',
-          'object-cover',
-          'pointer-events-none',
+          'relative inline-block select-none',
+          'rounded-xl',
+          'will-change-transform overflow-visible',
+          className,
         )}
-      />
-      {/* Expanded radial glow outside image bounds */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        animate={{ opacity: tilt.scale > 1 ? 0.4 : 0 }}
-        transition={{ duration: 0.35 }}
-        style={{
-          width: responsive ? dynamicSize : size,
-          height: responsive ? dynamicSize : size,
-          borderRadius: '50%',
-          background:
-            'radial-gradient(circle at 50% 45%, var(--color-copy, rgba(255,255,255,0.85)) 0%, transparent 60%)',
-          mixBlendMode: 'overlay',
-        }}
-      />
-    </div>
+        style={{ perspective: 1200 }}
+      >
+        <motion.img
+          ref={imgRef}
+          src={src}
+          alt={alt}
+          draggable={false}
+          animate={{ rotateX: tilt.x, rotateY: tilt.y, scale: tilt.scale }}
+          transition={{ type: 'spring', stiffness: 180, damping: 18 }}
+          style={{
+            transformStyle: 'preserve-3d',
+            filter: grayscaleInDark && isDark ? 'grayscale(1)' : 'none',
+            width: responsive ? 'clamp(240px, 55vw, 500px)' : size,
+          }}
+          className={cn(
+          //   'rounded-xl shadow-md',
+            'h-auto',
+            'bg-transparent',
+            'object-cover',
+            'pointer-events-none',
+          )}
+        />
+        {/* Expanded radial glow outside image bounds */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          animate={{ opacity: tilt.scale > 1 ? 0.4 : 0 }}
+          transition={{ duration: 0.35 }}
+          style={{
+            width: responsive ? dynamicSize : size,
+            height: responsive ? dynamicSize : size,
+            borderRadius: '50%',
+            background:
+              'radial-gradient(circle at 50% 45%, var(--color-copy, rgba(255,255,255,0.85)) 0%, transparent 60%)',
+            mixBlendMode: 'overlay',
+          }}
+        />
+      </div>
+    </AnimatedThemeToggler>
   );
 }
 

@@ -1,24 +1,27 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Moon, Sun } from "lucide-react"
 import { flushSync } from "react-dom"
 
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/hooks/use-theme"
 
-interface AnimatedThemeTogglerProps
-  extends React.ComponentPropsWithoutRef<"button"> {
+interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"button"> {
   duration?: number
+  asChild?: boolean
+  children?: React.ReactNode
 }
 
 export const AnimatedThemeToggler = ({
   className,
   duration = 400,
+  asChild = false,
+  children,
   ...props
 }: AnimatedThemeTogglerProps) => {
   const [isDark, setIsDark] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const buttonRef = useRef<HTMLElement | null>(null)
   const { resolvedTheme, setTheme } = useTheme()
 
   useEffect(() => {
@@ -36,8 +39,7 @@ export const AnimatedThemeToggler = ({
       })
     }).ready
 
-    const { top, left, width, height } =
-      buttonRef.current.getBoundingClientRect()
+    const { top, left, width, height } = buttonRef.current.getBoundingClientRect()
     const x = left + width / 2
     const y = top + height / 2
     const maxRadius = Math.hypot(
@@ -61,9 +63,23 @@ export const AnimatedThemeToggler = ({
             console.log(setTheme);
   }, [isDark, duration, setTheme])
 
+  if (asChild) {
+    return (
+      <span
+        ref={(node) => { buttonRef.current = node }}
+        onClick={toggleTheme}
+        className={cn(className)}
+        role="button"
+        aria-label="Toggle theme"
+      >
+        {children}
+      </span>
+    )
+  }
+
   return (
     <button
-      ref={buttonRef}
+      ref={(node) => { buttonRef.current = node }}
       onClick={toggleTheme}
       className={cn(className)}
       {...props}

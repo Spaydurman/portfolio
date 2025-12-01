@@ -56,7 +56,7 @@ export default function Navbar() {
           <a className="text-copy/80 hover:text-copy" href="#contact">Contact</a>
           {/* <ThemeToggle /> */}
           <ThemeTogglerButton />
-          <AnimatedThemeToggler />
+          {/* <AnimatedThemeToggler /> */}
         </nav>
       </div>
     </header>
