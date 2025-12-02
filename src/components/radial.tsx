@@ -10,11 +10,22 @@ import {
   type AnimationSequence,
 } from 'motion/react';
 import { useIsInView } from '../hooks/use-is-in-view';
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipPanel,
+  type TooltipPanelProps,
+} from '@/components/animate-ui/components/base/tooltip';
 
 interface ComponentProps {
   orbitItems: OrbitItem[];
   stageSize?: number;
   imageSize?: number;
+  tooltipSide?: TooltipPanelProps['side'];
+  tooltipSideOffset?: TooltipPanelProps['sideOffset'];
+  tooltipAlign?: TooltipPanelProps['align'];
+  tooltipAlignOffset?: TooltipPanelProps['alignOffset'];
+  tooltipFollowCursor?: boolean | 'x' | 'y';
 }
 
 type OrbitItem = {
@@ -93,10 +104,23 @@ const resolveSvgMaybeByName = (src: string) => {
   return src;
 };
 
+// interface BaseTooltipDemoProps {
+//   side: TooltipPanelProps['side'];
+//   sideOffset: TooltipPanelProps['sideOffset'];
+//   align: TooltipPanelProps['align'];
+//   alignOffset: TooltipPanelProps['alignOffset'];
+//   followCursor?: boolean | 'x' | 'y';
+// }
+
 function RadialIntro({
   orbitItems,
   stageSize = 320,
   imageSize = 60,
+  tooltipSide = 'top',
+  tooltipSideOffset = 8,
+  tooltipAlign = 'center',
+  tooltipAlignOffset = 0,
+  tooltipFollowCursor = 'x',
 }: ComponentProps) {
     const total = orbitItems.length;
     const outerCount = Math.max(1, Math.ceil((total * 2) / 3));
@@ -460,25 +484,39 @@ function RadialIntro({
                 ? resolveAssetUrl(resolveSvgMaybeByName(item.src))
                 : item.src;
               return (
-                <motion.img
-                  data-arm-image
-                  data-src={item.src}
-                  data-ring="outer"
-                  className={`absolute left-1/2 top-1/2 aspect-square translate -translate-x-1/2 pointer-events-auto ${isInlineSvg(item.src) || isSvgUrl(item.src) ? 'object-contain' : 'object-cover'}`}
-                  style={{
-                    width: imageSize + imagePadding * 2,
-                    height: imageSize + imagePadding * 2,
-                    padding: imagePadding,
-                    boxSizing: 'border-box',
-                    opacity: i === 0 ? 1 : 0,
-                  }}
-                  src={src}
-                  alt={item.name}
-                  draggable={false}
-                  loading="lazy"
-                  decoding="async"
-                  layoutId={`arm-img-${item.id}`}
-                />
+                <Tooltip followCursor={tooltipFollowCursor}>
+                  <TooltipTrigger
+                    render={
+                      <motion.img
+                        data-arm-image
+                        data-src={item.src}
+                        data-ring="outer"
+                        className={`absolute left-1/2 top-1/2 aspect-square translate -translate-x-1/2 pointer-events-auto ${isInlineSvg(item.src) || isSvgUrl(item.src) ? 'object-contain' : 'object-cover'}`}
+                        style={{
+                          width: imageSize + imagePadding * 2,
+                          height: imageSize + imagePadding * 2,
+                          padding: imagePadding,
+                          boxSizing: 'border-box',
+                          opacity: i === 0 ? 1 : 0,
+                        }}
+                        src={src}
+                        alt={item.name}
+                        draggable={false}
+                        loading="lazy"
+                        decoding="async"
+                        layoutId={`arm-img-${item.id}`}
+                      />
+                    }
+                  />
+                  <TooltipPanel
+                    side={tooltipSide}
+                    sideOffset={tooltipSideOffset}
+                    align={tooltipAlign}
+                    alignOffset={tooltipAlignOffset}
+                  >
+                    <p>{item.name}</p>
+                  </TooltipPanel>
+                </Tooltip>
               );
             })()}
           </motion.div>
@@ -494,29 +532,43 @@ function RadialIntro({
               data-angle={j * innerStep}
               layoutId={`arm-${item.id}`}
             >
-              <motion.img
-                data-arm-image
-                data-src={item.src}
-                data-ring="inner"
-                className={`absolute left-1/2 top-1/2 aspect-square translate -translate-x-1/2 pointer-events-auto ${isSvgUrl(item.src) ? 'object-contain' : 'object-cover'}`}
-                style={{
-                  width: imageSize + imagePadding * 2,
-                  height: imageSize + imagePadding * 2,
-                  padding: imagePadding,
-                  boxSizing: 'border-box',
-                  opacity: j === 0 ? 1 : 0,
-                }}
-                src={isInlineSvg(item.src)
-                  ? inlineSvgToDataUrl(item.src)
-                  : isSvgUrl(item.src)
-                  ? resolveAssetUrl(resolveSvgMaybeByName(item.src))
-                  : item.src}
-                alt={item.name}
-                draggable={false}
-                loading="lazy"
-                decoding="async"
-                layoutId={`arm-img-${item.id}`}
-              />
+              <Tooltip followCursor={tooltipFollowCursor}>
+                <TooltipTrigger
+                  render={
+                    <motion.img
+                      data-arm-image
+                      data-src={item.src}
+                      data-ring="inner"
+                      className={`absolute left-1/2 top-1/2 aspect-square translate -translate-x-1/2 pointer-events-auto ${isSvgUrl(item.src) ? 'object-contain' : 'object-cover'}`}
+                      style={{
+                        width: imageSize + imagePadding * 2,
+                        height: imageSize + imagePadding * 2,
+                        padding: imagePadding,
+                        boxSizing: 'border-box',
+                        opacity: j === 0 ? 1 : 0,
+                      }}
+                      src={isInlineSvg(item.src)
+                        ? inlineSvgToDataUrl(item.src)
+                        : isSvgUrl(item.src)
+                        ? resolveAssetUrl(resolveSvgMaybeByName(item.src))
+                        : item.src}
+                      alt={item.name}
+                      draggable={false}
+                      loading="lazy"
+                      decoding="async"
+                      layoutId={`arm-img-${item.id}`}
+                    />
+                  }
+                />
+                <TooltipPanel
+                  side={tooltipSide}
+                  sideOffset={tooltipSideOffset}
+                  align={tooltipAlign}
+                  alignOffset={tooltipAlignOffset}
+                >
+                  <p>{item.name}</p>
+                </TooltipPanel>
+              </Tooltip>
             </motion.div>
           ))}
       </motion.div>
