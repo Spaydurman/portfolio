@@ -41,7 +41,7 @@ const ITEMS = [
 export const TechStack = () => (
   <section
     id="tech-stack"
-    className="container-px w-vw border-t border-copy/10 relative overflow-hidden"
+    className="container-px w-vw border-t border-copy/10 relative overflow-hidden "
     style={{ minHeight: 500 }}
   >
     <div

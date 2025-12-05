@@ -3,15 +3,21 @@
 :root {
   --bg: #DFDFDF;
   --text: #1B1B1B;
+  --highlight: #1677FF;
+  --highlight-text: #FFFFFF;
 }
 .dark {
   --bg: #1B1B1B;
   --text: #DFDFDF;
+  --highlight: #CF3A33;
+  --highlight-text: #000000;
 }
 
 @theme {
   --color-surface: var(--bg);
   --color-copy: var(--text);
+  --color-highlight: var(--highlight);
+  --color-highlight-text: var(--highlight-text);
 }
 
 @layer base {
