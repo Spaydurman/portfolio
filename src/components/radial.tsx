@@ -180,11 +180,6 @@ function RadialIntro({
     const outerImgs = qsa(root, '[data-arm-image][data-ring="outer"]') as HTMLElement[];
     const innerImgs = qsa(root, '[data-arm-image][data-ring="inner"]') as HTMLElement[];
 
-    controllersRef.current.outerArms = [];
-    controllersRef.current.innerArms = [];
-    controllersRef.current.outerImgs = [];
-    controllersRef.current.innerImgs = [];
-
     type CtrlLike = { pause?: () => void; play?: () => void; start?: () => void; cancel?: () => void };
     const tryPause = (ctrl: unknown) => {
       try {
@@ -205,8 +200,20 @@ function RadialIntro({
       }
     };
 
+    // If not in view, pause any existing animations but do not cancel or reset them.
     if (!isInView) {
       [...controllersRef.current.outerArms, ...controllersRef.current.innerArms, ...controllersRef.current.outerImgs, ...controllersRef.current.innerImgs].forEach(tryPause);
+      return;
+    }
+
+    // Track whether we've already created the continuous animations so we can resume instead of recreating.
+    // avoid `any` — store a small created flag on the controllersRef.current object
+    const cCurrent = controllersRef.current as unknown as Record<string, unknown>;
+    if (!cCurrent.__createdRef) cCurrent.__createdRef = { created: false };
+    const createdRef = cCurrent.__createdRef as { created: boolean };
+    if (createdRef.created) {
+      // If animations were created previously, resume them rather than recreating (preserve rotation state).
+      [...controllersRef.current.outerArms, ...controllersRef.current.innerArms, ...controllersRef.current.outerImgs, ...controllersRef.current.innerImgs].forEach(tryPlay);
       return;
     }
 
@@ -318,6 +325,8 @@ function RadialIntro({
         if (innerHovered) tryPause(anim as unknown);
         stops.push(() => { tryPause(anim as unknown); if (typeof anim.cancel === 'function') (anim as Animation).cancel(); });
       });
+      // Mark that continuous animations were created so subsequent in-view toggles will resume instead of recreate
+      createdRef.created = true;
     }, 1300);
 
     const onEnter = (e: Event) => {
