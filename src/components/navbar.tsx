@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
 import ThemeTogglerButton from '@/components/animate-ui/components/buttons/theme-toggler'
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"
+// import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"
 // function ThemeToggle() {
 //   const [isDark, setIsDark] = useState<boolean>(() => {
 //     if (typeof window === 'undefined') return false

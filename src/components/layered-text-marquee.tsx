@@ -47,7 +47,7 @@ export default function LayeredTextMarquee({ text, className }: LayeredTextMarqu
       <div className="absolute inset-0 grid grid-rows-3" aria-hidden="true">
         <div className="flex items-center justify-start w-full h-full overflow-hidden">
           <motion.div
-            className="whitespace-nowrap font-extrabold tracking-tight leading-none select-none text-transparent opacity-15 [text-shadow:0_2px_20px_rgba(0,0,0,0.1)] text-[clamp(2rem,12vh,16vh)] [-webkit-text-stroke:4px_var(--text)]"
+            className="whitespace-nowrap font-black tracking-tight leading-none select-none bg-linear-to-br from-copy/8 via-copy/12 to-copy/8 bg-clip-text text-transparent opacity-100 filter-[blur(0.5px)] text-[clamp(2rem,12vh,16vh)]"
             animate={controls1}
           >
             {duplicatedText}
@@ -56,7 +56,8 @@ export default function LayeredTextMarquee({ text, className }: LayeredTextMarqu
 
         <div className="flex items-center justify-start w-full h-full overflow-hidden">
           <motion.div
-            className="whitespace-nowrap font-extrabold tracking-tight leading-none select-none text-transparent opacity-25 text-[clamp(2.2rem,13vh,17vh)] [-webkit-text-stroke:4px_var(--text)]"
+            className="whitespace-nowrap font-black tracking-tight leading-none select-none text-transparent opacity-100 text-[clamp(2.2rem,13vh,17vh)] [-webkit-text-stroke:2px_var(--text)] [text-stroke:2px_var(--text)] filter-[drop-shadow(0_0_20px_var(--text))]"
+            style={{ opacity: 0.15 }}
             animate={controls2}
           >
             {duplicatedText}
@@ -65,7 +66,14 @@ export default function LayeredTextMarquee({ text, className }: LayeredTextMarqu
 
         <div className="flex items-center justify-start w-full h-full overflow-hidden">
           <motion.div
-            className="whitespace-nowrap font-extrabold tracking-tight leading-none select-none text-transparent [-webkit-text-stroke:3px_var(--text)] text-[clamp(2rem,11vh,15vh)] mask-[linear-gradient(to_top,transparent_0%,black_0%)] [-webkit-mask-image:linear-gradient(to_top,transparent_0%,black_100%)]"
+            className="whitespace-nowrap font-black tracking-tight leading-none select-none text-[clamp(2rem,11vh,15vh)]"
+            style={{
+              background: 'linear-gradient(to bottom, var(--text), transparent)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              color: 'transparent',
+              opacity: 0.06,
+            }}
             animate={controls3}
           >
             {duplicatedText}
