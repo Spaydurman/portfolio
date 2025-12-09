@@ -14,7 +14,7 @@ export function HighlightPhrase({ children, delay = 0.5, duration = 0.7, active 
   const wrapperRef = React.useRef<HTMLSpanElement>(null)
   const containerRef = React.useRef<HTMLSpanElement>(null)
   const [rects, setRects] = React.useState<Array<{ top: number; left: number; width: number; height: number; barHeight?: number }>>([])
-  console.log(active);
+
   React.useLayoutEffect(() => {
     const el = containerRef.current
     const wrapper = wrapperRef.current

@@ -60,7 +60,7 @@ export const AnimatedThemeToggler = ({
         pseudoElement: "::view-transition-new(root)",
       }
     )
-            console.log(setTheme);
+
   }, [isDark, duration, setTheme])
 
   if (asChild) {
