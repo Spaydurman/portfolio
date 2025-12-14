@@ -18,7 +18,7 @@ function App() {
       </main>
       <footer className="mt-24 border-t border-copy/20">
         <div className="container-px mx-auto max-w-6xl py-8 text-sm text-copy/70">
-          © {new Date().getFullYear()} Your Name. All rights reserved.
+          © {new Date().getFullYear()} Clark Velasco. All rights reserved.
         </div>
       </footer>
     </div>
