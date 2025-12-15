@@ -12,7 +12,8 @@ export default function Contact() {
     inViewMargin: '-100px',
   });
 
-  const handleIconClick = (platform: 'github' | 'x' | 'facebook') => {
+  const handleIconClick = (platform: 'github' | 'linkedin' | 'facebook', event: React.MouseEvent<HTMLDivElement>) => {
+    void event;
     console.log(`Clicked ${platform}`);
     // Add your share logic here
   };

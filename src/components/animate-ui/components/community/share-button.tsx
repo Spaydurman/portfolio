@@ -37,7 +37,7 @@ const iconSizeMap = {
 type ShareButtonProps = React.ComponentPropsWithoutRef<typeof motion.button> & {
   children: React.ReactNode;
   className?: string;
-  onIconClick?: (platform: 'github' | 'x' | 'facebook') => void;
+  onIconClick?: (platform: 'github' | 'linkedin' | 'facebook', event: React.MouseEvent<HTMLDivElement>) => void;
 } & VariantProps<typeof buttonVariants>;
 
 function ShareButton({

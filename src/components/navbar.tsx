@@ -49,7 +49,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-surface/80 backdrop-blur">
       <div className="container-px mx-auto flex max-w-6xl items-center justify-between py-4">
-        <a href="#home" className="text-base font-semibold text-copy">Your Name</a>
+        <a href="#home" className="text-base font-semibold text-copy">John Clark Velasco</a>
         <nav className="flex items-center gap-4 text-sm">
           <a className="text-copy/80 hover:text-copy" href="#about">About</a>
           <a className="text-copy/80 hover:text-copy" href="#projects">Projects</a>

@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
   TooltipProvider as TooltipProviderPrimitive,
   Tooltip as TooltipPrimitive,
@@ -18,17 +16,15 @@ import { cn } from '@/lib/utils';
 
 type TooltipProviderProps = TooltipProviderPrimitiveProps;
 
-function TooltipProvider({ delay = 0, ...props }: TooltipProviderProps) {
-  return <TooltipProviderPrimitive delay={delay} {...props} />;
+function TooltipProvider(props: TooltipProviderProps) {
+  return <TooltipProviderPrimitive {...props} />;
 }
 
-type TooltipProps = TooltipPrimitiveProps & {
-  delay?: TooltipPrimitiveProps['delay'];
-};
+type TooltipProps = TooltipPrimitiveProps;
 
-function Tooltip({ delay = 0, ...props }: TooltipProps) {
+function Tooltip(props: TooltipProps) {
   return (
-    <TooltipProvider delay={delay}>
+    <TooltipProvider>
       <TooltipPrimitive {...props} />
     </TooltipProvider>
   );
