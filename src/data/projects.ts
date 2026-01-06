@@ -49,4 +49,10 @@ export const projects: Project[] = [
     href: '#',
     tags: ['Php', 'Laravel', 'React', 'Tailwind', 'Figma', 'Microsoft Sql', 'Python']
   },
+  {
+    title: 'Sync copy',
+    description: 'A cross-device utility that syncs clipboard content (text, links) from a user’s PC to their mobile device in real time for seamless copy-paste workflows.',
+    href: '#',
+    tags: ['Python']
+  },
 ]

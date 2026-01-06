@@ -211,9 +211,36 @@ function RadialIntro({
     const cCurrent = controllersRef.current as unknown as Record<string, unknown>;
     if (!cCurrent.__createdRef) cCurrent.__createdRef = { created: false };
     const createdRef = cCurrent.__createdRef as { created: boolean };
+
+    // Hoisted handlers so they can be referenced before the rest of the effect runs
+    function onEnter(e: Event) {
+      const el = e.currentTarget as HTMLElement;
+      const ring = (el.getAttribute('data-ring') || 'outer') as 'outer' | 'inner';
+      const ctrlsArms = controllersRef.current[ring === 'outer' ? 'outerArms' : 'innerArms'];
+      const ctrlsImgs = controllersRef.current[ring === 'outer' ? 'outerImgs' : 'innerImgs'];
+      [...ctrlsArms, ...ctrlsImgs].forEach(tryPause);
+    }
+    function onLeave(e: Event) {
+      if (!isInView) return;
+      const el = e.currentTarget as HTMLElement;
+      const ring = (el.getAttribute('data-ring') || 'outer') as 'outer' | 'inner';
+      const ctrlsArms = controllersRef.current[ring === 'outer' ? 'outerArms' : 'innerArms'];
+      const ctrlsImgs = controllersRef.current[ring === 'outer' ? 'outerImgs' : 'innerImgs'];
+      [...ctrlsArms, ...ctrlsImgs].forEach(tryPlay);
+    }
+
     if (createdRef.created) {
       // If animations were created previously, resume them rather than recreating (preserve rotation state).
       [...controllersRef.current.outerArms, ...controllersRef.current.innerArms, ...controllersRef.current.outerImgs, ...controllersRef.current.innerImgs].forEach(tryPlay);
+      // Ensure current image elements have hover listeners attached so hovering still pauses
+      outerImgs.forEach((img) => {
+        img.addEventListener('mouseenter', onEnter);
+        img.addEventListener('mouseleave', onLeave);
+      });
+      innerImgs.forEach((img) => {
+        img.addEventListener('mouseenter', onEnter);
+        img.addEventListener('mouseleave', onLeave);
+      });
       return;
     }
 
@@ -329,21 +356,7 @@ function RadialIntro({
       createdRef.created = true;
     }, 1300);
 
-    const onEnter = (e: Event) => {
-      const el = e.currentTarget as HTMLElement;
-      const ring = (el.getAttribute('data-ring') || 'outer') as 'outer' | 'inner';
-      const ctrlsArms = controllersRef.current[ring === 'outer' ? 'outerArms' : 'innerArms'];
-      const ctrlsImgs = controllersRef.current[ring === 'outer' ? 'outerImgs' : 'innerImgs'];
-      [...ctrlsArms, ...ctrlsImgs].forEach(tryPause);
-    };
-    const onLeave = (e: Event) => {
-      if (!isInView) return;
-      const el = e.currentTarget as HTMLElement;
-      const ring = (el.getAttribute('data-ring') || 'outer') as 'outer' | 'inner';
-      const ctrlsArms = controllersRef.current[ring === 'outer' ? 'outerArms' : 'innerArms'];
-      const ctrlsImgs = controllersRef.current[ring === 'outer' ? 'outerImgs' : 'innerImgs'];
-      [...ctrlsArms, ...ctrlsImgs].forEach(tryPlay);
-    };
+    
 
     outerImgs.forEach((img) => {
       img.addEventListener('mouseenter', onEnter);
