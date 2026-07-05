@@ -55,4 +55,10 @@ export const projects: Project[] = [
     href: '#',
     tags: ['Python']
   },
+  {
+    title: 'Crediwise',
+    description: 'A mobile application that will track your credit card usage and spending.',
+    href: '#',
+    tags: ['React Native', 'Tailwind', 'Figma', 'Supabase', 'Expo']
+  }
 ]

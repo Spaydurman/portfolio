@@ -63,8 +63,10 @@ const inlineSvgToDataUrl = (svg: string) =>
   `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
 const replaceFill = (svg: string, color: string) => {
-  svg = svg.replace(/(fill\s*=\s*["'])(#0{3,6}|black)(["'])/gi, (_m, p1, _p2, p3) => `${p1}${color}${p3}`);
-  svg = svg.replace(/(style\s*=\s*["'][^"']*?)fill:\s*(#0{3,6}|black)([^"']*["'])/gi, (_m, p1, _p2, p3) => `${p1}fill:${color}${p3}`);
+  // Replace common solid fill colors (black, white, and short/long hex variants)
+  // and also replace inline style `fill:` declarations.
+  svg = svg.replace(/(fill\s*=\s*["'])(#0{3,6}|#fff|#ffffff|black|white)(["'])/gi, (_m, p1, _p2, p3) => `${p1}${color}${p3}`);
+  svg = svg.replace(/(style\s*=\s*["'][^"']*?)fill:\s*(#0{3,6}|#fff|#ffffff|black|white)([^"']*["'])/gi, (_m, p1, _p2, p3) => `${p1}fill:${color}${p3}`);
   return svg;
 };
 
