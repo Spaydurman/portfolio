@@ -14,8 +14,13 @@ export default function Contact() {
 
   const handleIconClick = (platform: 'github' | 'linkedin' | 'facebook', event: React.MouseEvent<HTMLDivElement>) => {
     void event;
-    console.log(`Clicked ${platform}`);
-    // Add your share logic here
+    const links: Record<string, string> = {
+      github: 'https://github.com/Spaydurman',
+      linkedin: 'https://www.linkedin.com/in/john-clark-v-999571121/',
+      facebook: 'https://www.facebook.com/JClarkVelasco20/',
+    };
+    const url = links[platform];
+    if (url) window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
